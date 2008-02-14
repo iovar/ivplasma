@@ -1,0 +1,24 @@
+Assuming that you have a proper kde 4.*
+development environment, run these
+on the plasma-netgraph/ directory:
+
+
+~$ mkdir build
+~$ cd build/
+~$ cmake -DCMAKE_INSTALL_PREFIX=($KDEDIR) ../
+
+(Where $KDEDIR your kde installation directory.
+e.g. mine is $HOME/kde)
+
+~$ make 
+~$ make install
+
+Test with :
+
+~$ plasmoidviewer plasma_applet_netgraph
+
+
+Have fun !
+
+
+

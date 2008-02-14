@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Network Speed Data Engine
+X-KDE-ServiceTypes=Plasma/DataEngine
+Type=Service
+Icon=network-workgroup
+X-KDE-Library=plasma_engine_networkspeed
+X-Plasma-EngineName=networkspeed
+
+
+
