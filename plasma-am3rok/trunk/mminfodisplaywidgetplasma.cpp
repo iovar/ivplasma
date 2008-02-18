@@ -56,6 +56,12 @@ MMInfoDisplayWidgetPlasma::~MMInfoDisplayWidgetPlasma(void){
 
 }
 
+void MMInfoDisplayWidgetPlasma::update(void){
+ 
+    reinterpret_cast<Plasma::Widget *>(this)->update(QRectF(0,0,size().width(),size().height()));
+    
+}
+
 QSizeF MMInfoDisplayWidgetPlasma::sizeHint() const{
 
     QSizeF n_size=size();

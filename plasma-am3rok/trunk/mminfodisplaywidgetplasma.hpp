@@ -46,6 +46,8 @@ class MMInfoDisplayWidgetPlasma: public Plasma::Widget{
         MMInfoDisplayWidgetPlasma(Plasma::Widget *parent=0);
         ~MMInfoDisplayWidgetPlasma(void);
         QSizeF sizeHint() const;
+    public slots:
+        void update(void);
     protected:
         void paintWidget(QPainter *painter,
                          const QStyleOptionGraphicsItem *option,
