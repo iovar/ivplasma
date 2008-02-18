@@ -24,6 +24,7 @@
 *   For further information contact me at johnvarouhakis@gmail.com            *
 ******************************************************************************/
 
+#include "mminfodisplay.hpp"
 #include "mminfodisplaywidgetplasma.hpp"
 
 #include <kdebug.h>
@@ -37,44 +38,34 @@
 #include <QRectF>
 
 MMInfoDisplayWidgetPlasma::MMInfoDisplayWidgetPlasma(Plasma::Widget *parent):
-    Plasma::Widget(parent),
-    MMInfoDisplay(){
+    Plasma::Widget(parent){
 
-    m_timer=new QTimer(this);
-    m_timer->setInterval(1000);
-    connect(m_timer,SIGNAL(timeout()),
-            this,SLOT(runUpdateInfo()));
-    m_timer->start();
-    
+    updater= new MMInfoDisplay(this);
+    connect(updater,
+            SIGNAL(infoChanged()),
+            this,
+            SLOT(update()));
+
     setMinimumSize(QSizeF(160,80));
 }
 
 
 MMInfoDisplayWidgetPlasma::~MMInfoDisplayWidgetPlasma(void){
-
-    delete m_timer;
+    
+    delete updater;
 
 }
 
 QSizeF MMInfoDisplayWidgetPlasma::sizeHint() const{
-    
+
     QSizeF n_size=size();
-    if(n_size.height()<64)
+    
+    if(n_size.height()<64){
         n_size.setHeight(64);
+    }
     n_size.setWidth(n_size.height()*2.0);
 
     return n_size;
-
-}
-
-void MMInfoDisplayWidgetPlasma::doSignals(void){
-    
-    update(QRectF(0,0,size().width(),size().height()));
-}
-
-void MMInfoDisplayWidgetPlasma::runUpdateInfo(void){
-
-    updateInfo();
 
 }
 
@@ -84,10 +75,10 @@ void MMInfoDisplayWidgetPlasma::paintWidget(QPainter *painter,
     Q_UNUSED(option)
     Q_UNUSED(widget)
 
-    repaintInfo(painter,
-                QRectF(0,0,
-                       size().width(),
-                       size().height()));
+    updater->repaintInfo(painter,
+                         QRectF(0,0,
+                                size().width(),
+                                size().height()));
 
 }
 

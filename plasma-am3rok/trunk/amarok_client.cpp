@@ -169,10 +169,6 @@ void AmarokClient::changeState(const QString &state){
         }
 
     }
-    if(m_wpl)
-        m_wpl->runUpdateInfo();
-    if(m_dial)
-        m_dial->updateContents();
     playerStatus();
 
 }

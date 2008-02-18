@@ -29,17 +29,15 @@
 #define MMINFODISPLAYWIDGETQT_HPP
 
 
-#include "mminfodisplay.hpp"
-
 #include <plasma/widgets/widget.h>
 
 #include <QWidget>
 
 class QPaintEvent;
 class QTimer;
+class MMInfoDisplay;
 
-class MMInfoDisplayWidgetQt: public QWidget,
-                             public MMInfoDisplay{
+class MMInfoDisplayWidgetQt: public QWidget{
 
     Q_OBJECT
 
@@ -47,16 +45,10 @@ class MMInfoDisplayWidgetQt: public QWidget,
         MMInfoDisplayWidgetQt(QWidget *parent=0);
         ~MMInfoDisplayWidgetQt(void);
         QSize sizeHint() const;
-    public slots:
-        void runUpdateInfo(void);
-    signals:
-        void infoChanged(void);
     protected:
         void paintEvent(QPaintEvent * event);
-        void doSignals(void);
     private:
-        QTimer *m_timer;
-
+        MMInfoDisplay *updater;
 };
 
 #endif

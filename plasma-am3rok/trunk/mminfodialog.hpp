@@ -42,8 +42,6 @@ class MMInfoDialog: public Plasma::Dialog{
         MMInfoDialog(QWidget * parent=0,
                      Qt::WindowFlags f=Qt::Window);
         ~MMInfoDialog(void);
-    public slots:
-        void updateContents(void);
     private:
         QVBoxLayout *m_lay;
         MMInfoDisplayWidgetQt *m_wqt;

@@ -31,22 +31,27 @@
 #include <QRectF>
 #include <QString>
 #include <QImage>
+#include <QObject>
 
 class QPainter;
 class QImage;
+class QTimer;
 
-class MMInfoDisplay {
-    
+class MMInfoDisplay : public QObject{
+    Q_OBJECT
+
     public:
-        MMInfoDisplay(void);
-        virtual ~MMInfoDisplay(void);
+        MMInfoDisplay(QObject *parent=0);
+        ~MMInfoDisplay(void);
         void repaintInfo(QPainter *p,
                          const QRectF &bbox);
+    signals:
+        void infoChanged(void);
+    private slots:
         void updateInfo(void);
-    protected:
-        virtual void doSignals(void){;}
     private:
         QImage m_image;
+        QTimer *m_timer;
         QString m_title,
                 m_artist,
                 m_album,
@@ -58,6 +63,4 @@ class MMInfoDisplay {
 
 
 #endif
-
-
 

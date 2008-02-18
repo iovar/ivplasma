@@ -24,27 +24,21 @@
 *   For further information contact me at johnvarouhakis@gmail.com            *
 ******************************************************************************/
 
+#include "mminfodisplay.hpp"
 #include "mminfodisplaywidgetqt.hpp"
 
 #include <QSize>
 #include <QPainter>
 #include <QPaintEvent>
-#include <QTimer>
 
 MMInfoDisplayWidgetQt::MMInfoDisplayWidgetQt(QWidget *parent):
-    QWidget(parent),
-    MMInfoDisplay(){
-
-    connect(this,
+    QWidget(parent){
+    
+    updater= new MMInfoDisplay(this);
+    connect(updater,
             SIGNAL(infoChanged()),
             this,
             SLOT(update()));
-
-    m_timer=new QTimer(this);
-    m_timer->setInterval(1000);
-    connect(m_timer,SIGNAL(timeout()),
-            this,SLOT(runUpdateInfo()));
-    m_timer->start();
 
     setMinimumSize(300,200);
 }
@@ -52,7 +46,7 @@ MMInfoDisplayWidgetQt::MMInfoDisplayWidgetQt(QWidget *parent):
 
 MMInfoDisplayWidgetQt::~MMInfoDisplayWidgetQt(void){
 
-    delete m_timer;
+    delete updater;
 
 }
 
@@ -66,27 +60,15 @@ QSize MMInfoDisplayWidgetQt::sizeHint() const{
 
 }
 
-void MMInfoDisplayWidgetQt::doSignals(void){
-    
-    emit infoChanged();
-
-}
-
-void MMInfoDisplayWidgetQt::runUpdateInfo(void){
-
-    updateInfo();
-
-}
-
 void MMInfoDisplayWidgetQt::paintEvent(QPaintEvent *event){
 
     Q_UNUSED(event)
 
     QPainter painter(this);
-    repaintInfo(&painter,
-                QRectF(0,0,
-                       width(),
-                       height()));
+    updater->repaintInfo(&painter,
+                         QRectF(0,0,
+                                width(),
+                                height()));
 
 }
 

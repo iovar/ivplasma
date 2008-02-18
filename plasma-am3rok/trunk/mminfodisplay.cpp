@@ -26,6 +26,7 @@
 
 #include "mminfodisplay.hpp"
 
+
 #include <klocale.h>
 
 #include <QTimer>
@@ -33,10 +34,16 @@
 #include <QByteArray>
 #include <QRectF>
 #include <QPainter>
-#include <QImage>
 #include <QPen>
 
-MMInfoDisplay::MMInfoDisplay(void){
+MMInfoDisplay::MMInfoDisplay(QObject *parent):
+    QObject(parent){
+
+    m_timer=new QTimer(this);
+    m_timer->setInterval(1000);
+    connect(m_timer,SIGNAL(timeout()),
+            this,SLOT(updateInfo()));
+    m_timer->start();
 
     updateInfo();
     
@@ -44,6 +51,7 @@ MMInfoDisplay::MMInfoDisplay(void){
 
 MMInfoDisplay::~MMInfoDisplay(void){
 
+    delete m_timer;
 
 }
 
@@ -106,12 +114,11 @@ void MMInfoDisplay::updateInfo(void){
         m_album=i18n("Album") +" : "+ dcopAmarokQuery("album");
         m_coverImage=dcopAmarokQuery("coverImage");
         m_image.load(m_coverImage);
-        
-        doSignals();
+     
+        emit infoChanged();
     }
 
 }
 
-
-
+#include <mminfodisplay.moc>
 

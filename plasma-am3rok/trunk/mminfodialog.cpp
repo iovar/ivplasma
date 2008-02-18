@@ -49,11 +49,6 @@ MMInfoDialog::~MMInfoDialog(void){
 
 }
 
-void MMInfoDialog::updateContents(void){
-
-    m_wqt->runUpdateInfo();
-
-}
 
 #include <mminfodialog.moc>
 
