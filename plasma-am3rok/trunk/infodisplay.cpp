@@ -24,7 +24,7 @@
 *   For further information contact me at johnvarouhakis@gmail.com            *
 ******************************************************************************/
 
-#include "mminfodisplay.hpp"
+#include "infodisplay.hpp"
 
 
 #include <klocale.h>
@@ -36,7 +36,7 @@
 #include <QPainter>
 #include <QPen>
 
-MMInfoDisplay::MMInfoDisplay(QObject *parent):
+InfoDisplay::InfoDisplay(QObject *parent):
     QObject(parent){
 
     m_timer=new QTimer(this);
@@ -49,13 +49,13 @@ MMInfoDisplay::MMInfoDisplay(QObject *parent):
     
 }
 
-MMInfoDisplay::~MMInfoDisplay(void){
+InfoDisplay::~InfoDisplay(void){
 
     delete m_timer;
 
 }
 
-void MMInfoDisplay::repaintInfo(QPainter *p,
+void InfoDisplay::repaintInfo(QPainter *p,
                                 const QRectF &bbox){
     
     p->setPen(QPen("#ffffff"));
@@ -87,7 +87,7 @@ void MMInfoDisplay::repaintInfo(QPainter *p,
 }
 
 
-QString MMInfoDisplay::dcopAmarokQuery(const QString &query){
+QString InfoDisplay::dcopAmarokQuery(const QString &query){
     
     QProcess st;
     QByteArray bt;
@@ -104,7 +104,7 @@ QString MMInfoDisplay::dcopAmarokQuery(const QString &query){
 
 }
 
-void MMInfoDisplay::updateInfo(void){
+void InfoDisplay::updateInfo(void){
     
     QString new_path=dcopAmarokQuery("path");
     if(new_path!=m_path){
@@ -120,5 +120,5 @@ void MMInfoDisplay::updateInfo(void){
 
 }
 
-#include <mminfodisplay.moc>
+#include <infodisplay.moc>
 

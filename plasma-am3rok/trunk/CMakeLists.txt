@@ -12,11 +12,11 @@ include_directories(
    )
  
 set(am3rokclient_SRCS amarok_client.cpp
-                      mmbuttonwidget.cpp
-                      mminfodisplay.cpp
-                      mminfodisplaywidgetqt.cpp
-                      mminfodisplaywidgetplasma.cpp
-                      mminfodialog.cpp)
+                      buttonwidget.cpp
+                      infodisplay.cpp
+                      infowidgetqt.cpp
+                      infowidgetplasma.cpp
+                      infodialog.cpp)
 
 kde4_add_plugin(plasma_applet_am3rok ${am3rokclient_SRCS})
 target_link_libraries(plasma_applet_am3rok

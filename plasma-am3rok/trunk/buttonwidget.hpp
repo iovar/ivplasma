@@ -24,31 +24,57 @@
 *   For further information contact me at johnvarouhakis@gmail.com            *
 ******************************************************************************/
 
-#include "mminfodialog.hpp"
+#ifndef BUTONWIDGET_HPP
+#define BUTONWIDGET_HPP 
 
-#include "mminfodisplaywidgetqt.hpp"
+#include <plasma/widgets/widget.h>
 
-#include <QWidget>
-#include <QVBoxLayout>
+namespace Plasma{
+    class Icon;
+    class HBoxLayout;
+}
 
-MMInfoDialog::MMInfoDialog(QWidget * parent,
-                           Qt::WindowFlags f):  
-    Plasma::Dialog(parent,f){
+#include <QString>
+
+class QSizeF;
+
+
+class ButtonWidget : public Plasma::Widget{
     
-    m_wqt=new MMInfoDisplayWidgetQt(this);
-    m_lay=new QVBoxLayout(this);
-    setLayout(m_lay);
-    m_lay->addWidget(m_wqt);
+    Q_OBJECT
 
-}
+    public:
+        ButtonWidget(Plasma::Widget *parent=0);
+        ~ButtonWidget(void);
+        int status(void);
+        QSizeF sizeHint() const;
+        enum STATUS{
+            STOPPED,
+            PAUSED,
+            PLAYING,
+            CLOSED
+        };
+    public slots:
+        void setStatus(const QString &n_status);
+    signals:
+        void buttonPressed(const QString &button);
+    
+    private:
+        int m_status;
+        Plasma::HBoxLayout *m_layout;
+        Plasma::Icon *m_play,
+                     *m_stop,
+                     *m_prev,
+                     *m_next;
+        void buttonEnable(Plasma::Icon *bt,
+                          bool enable);
+    private slots:
+        void playPressed(void);
+        void stopPressed(void);
+        void nextPressed(void);
+        void prevPressed(void);
 
-MMInfoDialog::~MMInfoDialog(void){
+};
 
-    delete m_lay;
-    delete m_wqt;
-
-}
-
-
-#include <mminfodialog.moc>
+#endif
 

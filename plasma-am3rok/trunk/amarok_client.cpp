@@ -26,9 +26,9 @@
 
 
 #include "amarok_client.hpp"
-#include "mmbuttonwidget.hpp"
-#include "mminfodisplaywidgetplasma.hpp"
-#include "mminfodialog.hpp"
+#include "buttonwidget.hpp"
+#include "infowidgetplasma.hpp"
+#include "infodialog.hpp"
 
 #include <plasma/containment.h>
 #include <plasma/widgets/progressbar.h>
@@ -50,7 +50,7 @@ AmarokClient::AmarokClient(QObject *parent, const QVariantList &args)
     main_layout->setMargin(0);
     main_layout->setSpacing(0);
 
-    controlWidget= new MMButtonWidget(this);
+    controlWidget= new ButtonWidget(this);
     
     connect(controlWidget, SIGNAL(buttonPressed(const QString &)),
             this,SLOT(changeState(const QString &)));
@@ -64,12 +64,12 @@ void AmarokClient::init(){
          Plasma::Containment::DesktopContainment);
 
     if(isOnDesktop){
-        m_wpl= new MMInfoDisplayWidgetPlasma(this);       
+        m_wpl= new InfoWidgetPlasma(this);       
         main_layout->addItem(m_wpl);
         m_dial=0;
     }
     else{
-        m_dial=new MMInfoDialog(0,Qt::FramelessWindowHint |
+        m_dial=new InfoDialog(0,Qt::FramelessWindowHint |
                                   Qt::X11BypassWindowManagerHint);
         m_dial->adjustSize();
         m_wpl=0;
@@ -163,7 +163,7 @@ void AmarokClient::changeState(const QString &state){
             // and start playing (unless resume is on
             // and it starts on its own)
             int status=dcopAmarokIntQuery("status");
-            if(status!=MMButtonWidget::PLAYING)
+            if(status!=ButtonWidget::PLAYING)
                 QProcess::execute("dcop",
                               QStringList()<<"amarok"<<"player"<<"play");
         }
@@ -183,13 +183,13 @@ int AmarokClient::playerStatus(void){
     int status=dcopAmarokIntQuery("status");
 
     switch(status){
-        case MMButtonWidget::PLAYING:
+        case ButtonWidget::PLAYING:
             s_stat="PLAYING";
             break;
-        case MMButtonWidget::STOPPED:
+        case ButtonWidget::STOPPED:
             s_stat="STOPPED";
             break;
-        case MMButtonWidget::PAUSED:
+        case ButtonWidget::PAUSED:
             s_stat="PAUSED";
             break;
         default:

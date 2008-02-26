@@ -24,7 +24,7 @@
 *   For further information contact me at johnvarouhakis@gmail.com            *
 ******************************************************************************/
 
-#include "mmbuttonwidget.hpp"
+#include "buttonwidget.hpp"
 
 #include <plasma/widgets/widget.h>
 #include <plasma/widgets/icon.h>
@@ -35,7 +35,7 @@
 
 #include <QSizeF>
 
-MMButtonWidget::MMButtonWidget(Plasma::Widget *parent):
+ButtonWidget::ButtonWidget(Plasma::Widget *parent):
     Plasma::Widget(parent){
 
     m_layout = new Plasma::HBoxLayout(this);
@@ -66,7 +66,7 @@ MMButtonWidget::MMButtonWidget(Plasma::Widget *parent):
 }
 
 
-MMButtonWidget::~MMButtonWidget(void){
+ButtonWidget::~ButtonWidget(void){
 
     delete m_play;
     delete m_stop;
@@ -76,43 +76,43 @@ MMButtonWidget::~MMButtonWidget(void){
 
 }
 
-int MMButtonWidget::status(void){
+int ButtonWidget::status(void){
 
     return m_status;
 
 }
 
-void MMButtonWidget::setStatus(const QString &n_status){
+void ButtonWidget::setStatus(const QString &n_status){
     
 
     if(n_status=="PLAYING")
-        m_status=MMButtonWidget::PLAYING;
+        m_status=ButtonWidget::PLAYING;
     else if(n_status=="PAUSED")
-        m_status=MMButtonWidget::PAUSED;
+        m_status=ButtonWidget::PAUSED;
     else if(n_status=="STOPPED")
-        m_status=MMButtonWidget::STOPPED;
+        m_status=ButtonWidget::STOPPED;
     else if(n_status=="CLOSED")
-        m_status=MMButtonWidget::CLOSED;
+        m_status=ButtonWidget::CLOSED;
 
-    if(m_status==MMButtonWidget::PLAYING)
+    if(m_status==ButtonWidget::PLAYING)
         m_play->setIcon(KIcon("media-playback-pause"));
     else
         m_play->setIcon(KIcon("media-playback-start"));
     m_play->update();
 
     buttonEnable(m_stop,
-                 not ((m_status==MMButtonWidget::CLOSED) || 
-                      (m_status==MMButtonWidget::STOPPED)));
+                 not ((m_status==ButtonWidget::CLOSED) || 
+                      (m_status==ButtonWidget::STOPPED)));
     buttonEnable(m_next,
-                 not (m_status==MMButtonWidget::CLOSED));
+                 not (m_status==ButtonWidget::CLOSED));
     buttonEnable(m_prev,
-                 not (m_status==MMButtonWidget::CLOSED));
+                 not (m_status==ButtonWidget::CLOSED));
     
     update();
 
 }
 
-QSizeF MMButtonWidget::sizeHint() const{
+QSizeF ButtonWidget::sizeHint() const{
     
     QSizeF n_size=size();
     if(n_size.width()<24)
@@ -123,7 +123,7 @@ QSizeF MMButtonWidget::sizeHint() const{
 
 }
 
-void MMButtonWidget::buttonEnable(Plasma::Icon *bt,
+void ButtonWidget::buttonEnable(Plasma::Icon *bt,
                                   bool enable){
     
     if(bt->isEnabled() != enable ){
@@ -132,30 +132,30 @@ void MMButtonWidget::buttonEnable(Plasma::Icon *bt,
     }
 }
 
-void MMButtonWidget::playPressed(void){
+void ButtonWidget::playPressed(void){
 
     emit buttonPressed("playPause");
 
 }
 
-void MMButtonWidget::stopPressed(void){
+void ButtonWidget::stopPressed(void){
 
     emit buttonPressed("stop");
 
 }
 
-void MMButtonWidget::nextPressed(void){
+void ButtonWidget::nextPressed(void){
 
     emit buttonPressed("next");
 
 }
 
-void MMButtonWidget::prevPressed(void){
+void ButtonWidget::prevPressed(void){
 
     emit buttonPressed("prev");
 
 }
 
 
-#include "mmbuttonwidget.moc"
+#include "buttonwidget.moc"
 

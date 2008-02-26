@@ -24,72 +24,32 @@
 *   For further information contact me at johnvarouhakis@gmail.com            *
 ******************************************************************************/
 
-#include "mminfodisplay.hpp"
-#include "mminfodisplaywidgetplasma.hpp"
 
-#include <kdebug.h>
-
-#include <QPainter>
-#include <QStyleOptionGraphicsItem>
-#include <QWidget>
-#include <QObject>
-#include <QSizeF>
-#include <QTimer>
-#include <QRectF>
-
-MMInfoDisplayWidgetPlasma::MMInfoDisplayWidgetPlasma(Plasma::Widget *parent):
-    Plasma::Widget(parent){
-
-    updater= new MMInfoDisplay(this);
-    connect(updater,
-            SIGNAL(infoChanged()),
-            this,
-            SLOT(update()));
-
-    setMinimumSize(QSizeF(160,80));
-}
+#ifndef INFODIALOG_HPP
+#define INFODIALOG_HPP
 
 
-MMInfoDisplayWidgetPlasma::~MMInfoDisplayWidgetPlasma(void){
-    
-    delete updater;
+#include <plasma/dialog.h>
 
-}
+class QWidget;
+class QVBoxLayout;
+class InfoWidgetQt;
 
-void MMInfoDisplayWidgetPlasma::update(void){
- 
-    reinterpret_cast<Plasma::Widget *>(this)->update(QRectF(0,0,size().width(),size().height()));
-    
-}
+class InfoDialog: public Plasma::Dialog{
+    Q_OBJECT
 
-QSizeF MMInfoDisplayWidgetPlasma::sizeHint() const{
+    public:
+        InfoDialog(QWidget * parent=0,
+                     Qt::WindowFlags f=Qt::Window);
+        ~InfoDialog(void);
+    private:
+        QVBoxLayout *m_lay;
+        InfoWidgetQt *m_wqt;
 
-    QSizeF n_size=size();
-    
-    if(n_size.height()<64){
-        n_size.setHeight(64);
-    }
-    n_size.setWidth(n_size.height()*2.0);
+};
 
-    return n_size;
-
-}
-
-void MMInfoDisplayWidgetPlasma::paintWidget(QPainter *painter,
-        const QStyleOptionGraphicsItem *option,
-        QWidget *widget){
-    Q_UNUSED(option)
-    Q_UNUSED(widget)
-
-    updater->repaintInfo(painter,
-                         QRectF(0,0,
-                                size().width(),
-                                size().height()));
-
-}
+#endif
 
 
 
-
-#include <mminfodisplaywidgetplasma.moc>
 

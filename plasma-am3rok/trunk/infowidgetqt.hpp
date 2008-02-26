@@ -25,8 +25,8 @@
 ******************************************************************************/
 
 
-#ifndef MMINFODISPLAYWIDGETQT_HPP
-#define MMINFODISPLAYWIDGETQT_HPP
+#ifndef INFOWIDGETQT_HPP
+#define INFOWIDGETQT_HPP
 
 
 #include <plasma/widgets/widget.h>
@@ -35,20 +35,20 @@
 
 class QPaintEvent;
 class QTimer;
-class MMInfoDisplay;
+class InfoDisplay;
 
-class MMInfoDisplayWidgetQt: public QWidget{
+class InfoWidgetQt: public QWidget{
 
     Q_OBJECT
 
     public:
-        MMInfoDisplayWidgetQt(QWidget *parent=0);
-        ~MMInfoDisplayWidgetQt(void);
+        InfoWidgetQt(QWidget *parent=0);
+        ~InfoWidgetQt(void);
         QSize sizeHint() const;
     protected:
         void paintEvent(QPaintEvent * event);
     private:
-        MMInfoDisplay *updater;
+        InfoDisplay *updater;
 };
 
 #endif

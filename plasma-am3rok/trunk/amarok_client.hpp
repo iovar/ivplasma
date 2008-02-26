@@ -36,9 +36,9 @@ namespace Plasma {
 }
 
 
-class MMButtonWidget;
-class MMInfoDisplayWidgetPlasma;
-class MMInfoDialog;
+class ButtonWidget;
+class InfoWidgetPlasma;
+class InfoDialog;
 class QGraphicsSceneMouseEvent;
 
 
@@ -65,9 +65,9 @@ class AmarokClient : public Plasma::Applet{
         void updateBar(void);
 
     private:
-        MMButtonWidget *controlWidget;
-        MMInfoDisplayWidgetPlasma *m_wpl;
-        MMInfoDialog *m_dial;
+        ButtonWidget *controlWidget;
+        InfoWidgetPlasma *m_wpl;
+        InfoDialog *m_dial;
         Plasma::VBoxLayout *main_layout;
         Plasma::ProgressBar *pbar;
         int status_interval;

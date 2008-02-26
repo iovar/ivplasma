@@ -24,43 +24,31 @@
 *   For further information contact me at johnvarouhakis@gmail.com            *
 ******************************************************************************/
 
-#ifndef MMINFODISPLAY_HPP
-#define MMINFODISPLAY_HPP
+#include "infodialog.hpp"
 
+#include "infowidgetqt.hpp"
 
-#include <QRectF>
-#include <QString>
-#include <QImage>
-#include <QObject>
+#include <QWidget>
+#include <QVBoxLayout>
 
-class QPainter;
-class QImage;
-class QTimer;
-
-class MMInfoDisplay : public QObject{
-    Q_OBJECT
-
-    public:
-        MMInfoDisplay(QObject *parent=0);
-        ~MMInfoDisplay(void);
-        void repaintInfo(QPainter *p,
-                         const QRectF &bbox);
-    signals:
-        void infoChanged(void);
-    private slots:
-        void updateInfo(void);
-    private:
-        QImage m_image;
-        QTimer *m_timer;
-        QString m_title,
-                m_artist,
-                m_album,
-                m_coverImage,
-                m_path;
-        QString dcopAmarokQuery(const QString &query);
+InfoDialog::InfoDialog(QWidget * parent,
+                       Qt::WindowFlags f):  
+    Plasma::Dialog(parent,f){
     
-};
+    m_wqt=new InfoWidgetQt(this);
+    m_lay=new QVBoxLayout(this);
+    setLayout(m_lay);
+    m_lay->addWidget(m_wqt);
+
+}
+
+InfoDialog::~InfoDialog(void){
+
+    delete m_lay;
+    delete m_wqt;
+
+}
 
 
-#endif
+#include <infodialog.moc>
 

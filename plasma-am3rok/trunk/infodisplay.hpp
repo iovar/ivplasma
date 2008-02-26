@@ -24,57 +24,43 @@
 *   For further information contact me at johnvarouhakis@gmail.com            *
 ******************************************************************************/
 
-#ifndef MMBUTONWIDGET_HPP
-#define MMBUTONWIDGET_HPP 
+#ifndef INFODISPLAY_HPP
+#define INFODISPLAY_HPP
 
-#include <plasma/widgets/widget.h>
 
-namespace Plasma{
-    class Icon;
-    class HBoxLayout;
-}
-
+#include <QRectF>
 #include <QString>
+#include <QImage>
+#include <QObject>
 
-class QSizeF;
+class QPainter;
+class QImage;
+class QTimer;
 
-
-class MMButtonWidget : public Plasma::Widget{
-    
+class InfoDisplay : public QObject{
     Q_OBJECT
 
     public:
-        MMButtonWidget(Plasma::Widget *parent=0);
-        ~MMButtonWidget(void);
-        int status(void);
-        QSizeF sizeHint() const;
-        enum STATUS{
-            STOPPED,
-            PAUSED,
-            PLAYING,
-            CLOSED
-        };
-    public slots:
-        void setStatus(const QString &n_status);
+        InfoDisplay(QObject *parent=0);
+        ~InfoDisplay(void);
+        void repaintInfo(QPainter *p,
+                         const QRectF &bbox);
     signals:
-        void buttonPressed(const QString &button);
-    
-    private:
-        int m_status;
-        Plasma::HBoxLayout *m_layout;
-        Plasma::Icon *m_play,
-                     *m_stop,
-                     *m_prev,
-                     *m_next;
-        void buttonEnable(Plasma::Icon *bt,
-                          bool enable);
+        void infoChanged(void);
     private slots:
-        void playPressed(void);
-        void stopPressed(void);
-        void nextPressed(void);
-        void prevPressed(void);
-
+        void updateInfo(void);
+    private:
+        QImage m_image;
+        QTimer *m_timer;
+        QString m_title,
+                m_artist,
+                m_album,
+                m_coverImage,
+                m_path;
+        QString dcopAmarokQuery(const QString &query);
+    
 };
+
 
 #endif
 

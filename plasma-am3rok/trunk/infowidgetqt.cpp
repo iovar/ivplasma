@@ -24,17 +24,17 @@
 *   For further information contact me at johnvarouhakis@gmail.com            *
 ******************************************************************************/
 
-#include "mminfodisplay.hpp"
-#include "mminfodisplaywidgetqt.hpp"
+#include "infodisplay.hpp"
+#include "infowidgetqt.hpp"
 
 #include <QSize>
 #include <QPainter>
 #include <QPaintEvent>
 
-MMInfoDisplayWidgetQt::MMInfoDisplayWidgetQt(QWidget *parent):
+InfoWidgetQt::InfoWidgetQt(QWidget *parent):
     QWidget(parent){
     
-    updater= new MMInfoDisplay(this);
+    updater= new InfoDisplay(this);
     connect(updater,
             SIGNAL(infoChanged()),
             this,
@@ -44,13 +44,13 @@ MMInfoDisplayWidgetQt::MMInfoDisplayWidgetQt(QWidget *parent):
 }
 
 
-MMInfoDisplayWidgetQt::~MMInfoDisplayWidgetQt(void){
+InfoWidgetQt::~InfoWidgetQt(void){
 
     delete updater;
 
 }
 
-QSize MMInfoDisplayWidgetQt::sizeHint() const{
+QSize InfoWidgetQt::sizeHint() const{
 
     QSize n_size=size();
 
@@ -60,7 +60,7 @@ QSize MMInfoDisplayWidgetQt::sizeHint() const{
 
 }
 
-void MMInfoDisplayWidgetQt::paintEvent(QPaintEvent *event){
+void InfoWidgetQt::paintEvent(QPaintEvent *event){
 
     Q_UNUSED(event)
 
@@ -73,5 +73,5 @@ void MMInfoDisplayWidgetQt::paintEvent(QPaintEvent *event){
 }
 
 
-#include <mminfodisplaywidgetqt.moc>
+#include <infowidgetqt.moc>
 

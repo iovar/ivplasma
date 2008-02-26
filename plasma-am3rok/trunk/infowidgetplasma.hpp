@@ -25,8 +25,8 @@
 ******************************************************************************/
 
 
-#ifndef MMINFODISPLAYWIDGETPLASMA_HPP
-#define MMINFODISPLAYWIDGETPLASMA_HPP
+#ifndef INFOWIDGETPLASMA_HPP
+#define INFOWIDGETPLASMA_HPP
 
 
 #include <plasma/widgets/widget.h>
@@ -36,15 +36,15 @@
 class QPainter;
 class QStyleOptionGraphicsItem;
 class QWidget;
-class MMInfoDisplay;
+class InfoDisplay;
 
-class MMInfoDisplayWidgetPlasma: public Plasma::Widget{
+class InfoWidgetPlasma: public Plasma::Widget{
 
     Q_OBJECT
 
     public:
-        MMInfoDisplayWidgetPlasma(Plasma::Widget *parent=0);
-        ~MMInfoDisplayWidgetPlasma(void);
+        InfoWidgetPlasma(Plasma::Widget *parent=0);
+        ~InfoWidgetPlasma(void);
         QSizeF sizeHint() const;
     public slots:
         void update(void);
@@ -53,7 +53,7 @@ class MMInfoDisplayWidgetPlasma: public Plasma::Widget{
                          const QStyleOptionGraphicsItem *option,
                          QWidget *widget = 0);
     private:
-        MMInfoDisplay *updater;
+        InfoDisplay *updater;
 
 };
 
