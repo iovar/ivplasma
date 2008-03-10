@@ -97,7 +97,7 @@ QString InfoDisplay::dcopAmarokQuery(const QString &query){
     if(st.exitCode()==0){
         bt=st.readAllStandardOutput();
         st.close();
-        return (QString(bt.trimmed()));
+        return (QString::fromLocal8Bit(bt.trimmed()));
     }
     else
         return QString("");
