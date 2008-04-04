@@ -1,0 +1,18 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Toggle Compositing
+Comment=Toggles KWin compositing
+Type=Service
+ServiceTypes=Plasma/Applet
+ 
+X-KDE-Library=plasma_applet_toggle_compositing
+X-KDE-PluginInfo-Author=John Varouhakis
+X-KDE-PluginInfo-Email=johnvarouhakis@gmail.com
+X-KDE-PluginInfo-Name=plasma_applet_toggle_compositing
+X-KDE-PluginInfo-Version=0.1
+X-KDE-PluginInfo-Website=http://plasma.kde.org/
+X-KDE-PluginInfo-Category=Windows and Tasks
+X-KDE-PluginInfo-Depends=
+X-KDE-PluginInfo-License=GPL
+X-KDE-PluginInfo-EnabledByDefault=true
+

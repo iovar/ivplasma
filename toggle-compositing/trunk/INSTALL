@@ -1,0 +1,23 @@
+Assuming that you have a proper kde 4.*
+development environment, run these
+on the toggle-compositing/ directory:
+
+
+~$ mkdir build
+~$ cd build/
+~$ cmake -DCMAKE_INSTALL_PREFIX=($KDEDIR) ../
+
+(Where $KDEDIR your kde installation directory)
+
+~$ make 
+~$ make install
+
+Test with :
+
+~$ plasmoidviewer plasma_applet_toggle_compositing
+
+
+Have fun !
+
+
+
