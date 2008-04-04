@@ -152,6 +152,54 @@
        y1="62"
        x2="16"
        y2="2" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3162"
+       id="linearGradient3190"
+       gradientUnits="userSpaceOnUse"
+       x1="16"
+       y1="62"
+       x2="16"
+       y2="2" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3162"
+       id="linearGradient3202"
+       gradientUnits="userSpaceOnUse"
+       x1="16"
+       y1="62"
+       x2="16"
+       y2="2" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3238"
+       id="linearGradient3217"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(32,-64)"
+       x1="16"
+       y1="62"
+       x2="16"
+       y2="2" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3238"
+       id="linearGradient3224"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(32,-64)"
+       x1="16"
+       y1="62"
+       x2="16"
+       y2="2" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3238"
+       id="linearGradient3229"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(32,-64)"
+       x1="16"
+       y1="62"
+       x2="16"
+       y2="2" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -162,7 +210,7 @@
      inkscape:pageshadow="2"
      inkscape:zoom="5.5"
      inkscape:cx="19.39436"
-     inkscape:cy="32"
+     inkscape:cy="31.491772"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:document-units="px"
@@ -188,7 +236,16 @@
      inkscape:groupmode="layer">
     <g
        id="off"
-       inkscape:label="#g2194">
+       inkscape:label="#g3204">
+      <rect
+         ry="3.125"
+         rx="3.5"
+         y="2"
+         x="2"
+         height="60"
+         width="28"
+         id="rect3197"
+         style="fill:#ffffff;fill-opacity:0.55958551;stroke:none;stroke-width:0.2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
       <rect
          ry="3.125"
          rx="3.5"
@@ -197,7 +254,7 @@
          height="60"
          width="28"
          id="rect2186"
-         style="fill:url(#linearGradient2189);fill-opacity:1.0;stroke:#000000;stroke-width:0.2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+         style="fill:url(#linearGradient3202);fill-opacity:1;stroke:#000000;stroke-width:0.2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
       <path
          id="text3206"
          d="M 14.4,13.070136 L 15.583594,13.070136 L 15.583594,21.818183 L 14.4,21.818183 L 14.4,13.070136"
@@ -209,7 +266,16 @@
     </g>
     <g
        id="on"
-       inkscape:label="#g3256">
+       inkscape:label="#g3231">
+      <rect
+         ry="3.125"
+         rx="3.5"
+         y="2"
+         x="34"
+         height="60"
+         width="28"
+         id="rect3184"
+         style="fill:#ffffff;fill-opacity:0.55958551;stroke:none;stroke-width:0.2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
       <rect
          transform="scale(1,-1)"
          ry="3.125"
@@ -219,7 +285,7 @@
          height="60"
          width="28"
          id="rect3225"
-         style="fill:url(#linearGradient3236);fill-opacity:1.0;stroke:#000000;stroke-width:0.2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+         style="fill:url(#linearGradient3229);fill-opacity:1;stroke:#000000;stroke-width:0.2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
       <path
          id="path3227"
          d="M 46.4,5.070136 L 47.583594,5.070136 L 47.583594,13.818183 L 46.4,13.818183 L 46.4,5.070136"
