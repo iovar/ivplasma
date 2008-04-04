@@ -1,0 +1,19 @@
+toggle-compositing is a plasma applet written and 
+maintained by John Varouhakis (johnvarouhakis@gmail.com).
+
+The code in ktimerdialog.[h|cpp] is
+
+Copyright (C) 2002 Hamish Rodda <rodda@kde.org>
+
+And the code in confirmation_dialog.[hpp|cpp] is
+
+Copyright (C) 2007 Rivo Laks <rivolaks@hot.ee>
+
+All the files are published under the GNU GPL v2 or later.
+
+For further information refer to the headers of each file
+as well as the COPYING file which should accompany this 
+source distribution.
+
+
+
