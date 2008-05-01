@@ -52,7 +52,6 @@ class ToggleCompositing : public Plasma::Applet{
         void constraintsUpdated(Plasma::Constraints);
         void mousePressEvent(QGraphicsSceneMouseEvent *event);
         Qt::Orientations expandingDirections() const;
-        QSizeF contentSizeHint() const;
 
         bool readState(void);
         bool tryChangeState(void);
@@ -61,6 +60,8 @@ class ToggleCompositing : public Plasma::Applet{
         void checkState(void);
 
     protected:
+        
+        QSizeF sizeHint(Qt::SizeHint, const QSizeF&) const;
 
         void toggleState(void);
         void writeState(bool);

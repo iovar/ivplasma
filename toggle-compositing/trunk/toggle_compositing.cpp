@@ -79,12 +79,15 @@ void ToggleCompositing::constraintsUpdated(Plasma::Constraints constraints){
 
 }
 
-QSizeF ToggleCompositing::contentSizeHint() const{
+QSizeF ToggleCompositing::sizeHint(Qt::SizeHint which, const QSizeF & constraint) const{
 
+    Q_UNUSED(which)
     QSizeF n_s=size();
     
     n_s.setWidth(n_s.height()/2.0);
-
+    kDebug() << "NEW SIZE" << n_s 
+             << "CONSTRAINT" << constraint
+             << "SIZE" << size();
     return n_s;
 
 }
