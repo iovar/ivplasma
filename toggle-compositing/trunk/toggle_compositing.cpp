@@ -46,15 +46,16 @@
 ToggleCompositing::ToggleCompositing(QObject *parent, const QVariantList &args)
     :Plasma::Applet(parent, args){
 
-    setContentSize(QSizeF(32,64));
+    resize(QSizeF(32,64));
 
-    m_btn = new Plasma::Svg("widgets/onoff_switch");
+    m_btn = new Plasma::Svg(this);
+    m_btn->setImagePath("widgets/onoff_switch");
     state_tmr= new QTimer();
     state_tmr->setInterval(5000);
 
     connect(state_tmr, SIGNAL(timeout()),
             this,SLOT(checkState()));
-   
+    setBackgroundHints(DefaultBackground);
 }
 
 void ToggleCompositing::init(){
@@ -80,7 +81,7 @@ void ToggleCompositing::constraintsUpdated(Plasma::Constraints constraints){
 
 QSizeF ToggleCompositing::contentSizeHint() const{
 
-    QSizeF n_s=contentSize();
+    QSizeF n_s=size();
     
     n_s.setWidth(n_s.height()/2.0);
 
@@ -166,7 +167,7 @@ bool ToggleCompositing::tryChangeState(void){
 void ToggleCompositing::mousePressEvent(QGraphicsSceneMouseEvent *event){
 
     if (event->buttons () == Qt::LeftButton &&
-        contentRect().contains(event->pos()) ){
+        rect().contains(event->pos()) ){
         
         tryChangeState();
 
@@ -179,12 +180,11 @@ void ToggleCompositing::mousePressEvent(QGraphicsSceneMouseEvent *event){
 
 void ToggleCompositing::paintInterface(QPainter *p,
                                   const QStyleOptionGraphicsItem *option, 
-                                  const QRect &contentsRect){
+                                  const QRect &cRect){
     Q_UNUSED(option)
-    Q_UNUSED(contentsRect)
     
-    double t_width=contentSize().width(),
-           t_height=contentSize().height();
+    double t_width=cRect.width(),
+           t_height=cRect.height();
 
     QString elementid=(m_state)?"on":"off";
     QSizeF svgsize;
