@@ -61,7 +61,7 @@ class ToggleCompositing : public Plasma::Applet{
 
     protected:
         
-        QSizeF sizeHint(Qt::SizeHint, const QSizeF&) const;
+        QSizeF contentSizeHint() const;
 
         void toggleState(void);
         void writeState(bool);

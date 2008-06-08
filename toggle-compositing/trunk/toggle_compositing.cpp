@@ -46,8 +46,10 @@
 ToggleCompositing::ToggleCompositing(QObject *parent, const QVariantList &args)
     :Plasma::Applet(parent, args){
 
-    resize(QSizeF(32,64));
-
+    qreal l1,t1,r1,b1;
+    getContentsMargins(&l1,&t1,&r1,&b1);
+    kDebug() << l1<<t1<<r1<<b1;
+    resize(QSizeF(32+l1+r1,64+t1+b1));
     m_btn = new Plasma::Svg(this);
     m_btn->setImagePath("widgets/onoff_switch");
     state_tmr= new QTimer();
@@ -56,6 +58,7 @@ ToggleCompositing::ToggleCompositing(QObject *parent, const QVariantList &args)
     connect(state_tmr, SIGNAL(timeout()),
             this,SLOT(checkState()));
     setBackgroundHints(DefaultBackground);
+    //setContentsMargins(0,0,0,0);
 }
 
 void ToggleCompositing::init(){
@@ -79,14 +82,12 @@ void ToggleCompositing::constraintsUpdated(Plasma::Constraints constraints){
 
 }
 
-QSizeF ToggleCompositing::sizeHint(Qt::SizeHint which, const QSizeF & constraint) const{
+QSizeF ToggleCompositing::contentSizeHint() const{
 
-    Q_UNUSED(which)
-    QSizeF n_s=size();
+    QSizeF n_s=contentsRect().size();
     
     n_s.setWidth(n_s.height()/2.0);
     kDebug() << "NEW SIZE" << n_s 
-             << "CONSTRAINT" << constraint
              << "SIZE" << size();
     return n_s;
 
@@ -170,7 +171,7 @@ bool ToggleCompositing::tryChangeState(void){
 void ToggleCompositing::mousePressEvent(QGraphicsSceneMouseEvent *event){
 
     if (event->buttons () == Qt::LeftButton &&
-        rect().contains(event->pos()) ){
+        contentsRect().contains(event->pos()) ){
         
         tryChangeState();
 
@@ -191,7 +192,6 @@ void ToggleCompositing::paintInterface(QPainter *p,
 
     QString elementid=(m_state)?"on":"off";
     QSizeF svgsize;
-    
 
     p->save();
 
@@ -199,9 +199,10 @@ void ToggleCompositing::paintInterface(QPainter *p,
     
     svgsize=m_btn->elementSize(elementid);
 
+    kDebug() << t_width << svgsize.width() << t_height << svgsize.height() ;
     m_btn->paint(p,
-                 (t_width-svgsize.width())/2.0 ,
-                 (t_height-svgsize.height())/2.0,
+                 (t_width-svgsize.width())/2.0 + cRect.x(),
+                 (t_height-svgsize.height())/2.0 + cRect.y(),
                  elementid);
 
 
