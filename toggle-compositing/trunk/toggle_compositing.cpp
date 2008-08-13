@@ -30,6 +30,7 @@
 
 #include <plasma/svg.h>
 
+
 #include <kdebug.h>
 #include <ksharedconfig.h>
 #include <kconfig.h>
@@ -40,15 +41,17 @@
 #include <QTimer>
 #include <QPainter>
 #include <QGraphicsSceneMouseEvent>
+#include <QGraphicsLayoutItem>
 #include <QtDBus/QtDBus>
 
 
 ToggleCompositing::ToggleCompositing(QObject *parent, const QVariantList &args)
     :Plasma::Applet(parent, args){
 
-    qreal l1,t1,r1,b1;
-    getContentsMargins(&l1,&t1,&r1,&b1);
-    kDebug() << l1<<t1<<r1<<b1;
+    double l1,r1,t1,b1;
+
+    getContentsMargins(&l1,&r1,&t1,&b1);
+    setAspectRatioMode(Plasma::KeepAspectRatio);
     resize(QSizeF(32+l1+r1,64+t1+b1));
     m_btn = new Plasma::Svg(this);
     m_btn->setImagePath("widgets/onoff_switch");
@@ -58,13 +61,44 @@ ToggleCompositing::ToggleCompositing(QObject *parent, const QVariantList &args)
     connect(state_tmr, SIGNAL(timeout()),
             this,SLOT(checkState()));
     setBackgroundHints(DefaultBackground);
-    //setContentsMargins(0,0,0,0);
+
 }
 
 void ToggleCompositing::init(){
 
     kDebug() <<"state is :" << readState();
     state_tmr->start();    
+}
+
+void ToggleCompositing::recalculateGeometry(void){
+
+    QSizeF   t_siz=contentsRect().size(),
+            n_siz;
+    double l1,r1,t1,b1;
+
+    getContentsMargins(&l1,&r1,&t1,&b1);
+
+    n_siz.setWidth(t_siz.width()+l1+r1);
+    n_siz.setHeight(t_siz.height()+b1+t1);
+
+    if(t_siz.width()!=t_siz.height()/2.0){
+
+        if(t_siz.width()>t_siz.height()/2.0){
+
+            n_siz.setWidth(t_siz.height()/2.0+l1+r1);
+
+        }
+        else if(t_siz.width()<t_siz.height()/2.0){
+
+            n_siz.setHeight(t_siz.width()*2.0+b1+t1);
+
+        }
+
+    }
+    kDebug()<< n_siz.width() << n_siz.height() << t_siz.width() << t_siz.height();
+    resize(n_siz);
+    setPreferredSize(n_siz);
+
 }
 
 ToggleCompositing::~ToggleCompositing(){
@@ -76,29 +110,24 @@ ToggleCompositing::~ToggleCompositing(){
     
 }
 
-void ToggleCompositing::constraintsUpdated(Plasma::Constraints constraints){
-
-    Q_UNUSED(constraints);
-
-}
-
-QSizeF ToggleCompositing::contentSizeHint() const{
-
-    QSizeF n_s=contentsRect().size();
+void ToggleCompositing::constraintsEvent(Plasma::Constraints constraints){
     
-    n_s.setWidth(n_s.height()/2.0);
-    kDebug() << "NEW SIZE" << n_s 
-             << "SIZE" << size();
-    return n_s;
+    recalculateGeometry();
+
+    if (constraints & Plasma::FormFactorConstraint) {
+        if (formFactor() == Plasma::Horizontal) {
+            setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
+        }
+        else if (formFactor() == Plasma::Vertical) {
+            setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+        }
+        else {
+            setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        }
+    }
 
 }
-
-Qt::Orientations ToggleCompositing::expandingDirections() const{
-    
-    return 0;
-
-}
-
+ 
 bool ToggleCompositing::readState(void){
 
     KSharedConfigPtr mKWinConfig=KSharedConfig::openConfig("kwinrc");
@@ -188,12 +217,23 @@ void ToggleCompositing::paintInterface(QPainter *p,
     Q_UNUSED(option)
     
     double t_width=cRect.width(),
-           t_height=cRect.height();
+           t_height=cRect.height(),
+           t_aspect;
 
     QString elementid=(m_state)?"on":"off";
     QSizeF svgsize;
 
     p->save();
+    t_aspect=t_height/t_width;
+    
+    if(t_aspect!=2.0){
+     
+        if(t_aspect< 2.0)
+                t_width=t_height/2.0;
+        else if(t_aspect > 2.0)
+                t_height=t_width*2.0;
+
+    }
 
     m_btn->resize(QSizeF(t_width*2.0,t_height));
     

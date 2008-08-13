@@ -49,9 +49,9 @@ class ToggleCompositing : public Plasma::Applet{
         void paintInterface(QPainter *painter,
                             const QStyleOptionGraphicsItem *option,
                             const QRect& contentsRect);
-        void constraintsUpdated(Plasma::Constraints);
+        void constraintsEvent(Plasma::Constraints);
         void mousePressEvent(QGraphicsSceneMouseEvent *event);
-        Qt::Orientations expandingDirections() const;
+        
 
         bool readState(void);
         bool tryChangeState(void);
@@ -71,6 +71,8 @@ class ToggleCompositing : public Plasma::Applet{
         QTimer *state_tmr;
         bool m_state;
         Plasma::Svg *m_btn;
+
+        void recalculateGeometry(void);
 
 };
 
