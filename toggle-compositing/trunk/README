@@ -1,0 +1,9 @@
+toggle-compositing is a simple plasmoid that can be used
+to quickly change KWin (and only KWin) between compositing
+and non-compositing mode.
+
+Contact me at johnvarouhakis@gmail.com
+Report bugs at :
+http://code.google.com/p/ivplasma/issues/list
+
+
