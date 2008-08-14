@@ -26,9 +26,7 @@
 
 #include "buttonwidget.hpp"
 
-#include <plasma/widgets/widget.h>
 #include <plasma/widgets/icon.h>
-#include <plasma/layouts/hboxlayout.h>
 
 #include <kicon.h>
 #include <kdebug.h>
@@ -36,10 +34,11 @@
 #include <QSizeF>
 
 ButtonWidget::ButtonWidget(Plasma::Widget *parent):
-    Plasma::Widget(parent){
+    QGraphicsWidget(parent){
 
-    m_layout = new Plasma::HBoxLayout(this);
+    m_layout = new QGraphicsLinearLayout(this);
 
+    layout()->setOrientation(Qt::Horizontal);
     layout()->setMargin(0);
     layout()->setSpacing(0);
 
@@ -63,6 +62,8 @@ ButtonWidget::ButtonWidget(Plasma::Widget *parent):
             this,SLOT(prevPressed()));
 
     setMinimumSize(QSizeF(96,24));
+    setAspectRatioMode(Plasma::KeepAspectRatio);
+    resize(128,32);
 }
 
 
@@ -112,16 +113,6 @@ void ButtonWidget::setStatus(const QString &n_status){
 
 }
 
-QSizeF ButtonWidget::sizeHint() const{
-    
-    QSizeF n_size=size();
-    if(n_size.width()<24)
-        n_size.setHeight(24);
-    n_size.setWidth(n_size.height()*4.0);
-
-    return n_size;
-
-}
 
 void ButtonWidget::buttonEnable(Plasma::Icon *bt,
                                   bool enable){

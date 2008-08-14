@@ -27,27 +27,27 @@
 #ifndef BUTONWIDGET_HPP
 #define BUTONWIDGET_HPP 
 
-#include <plasma/widgets/widget.h>
+
 
 namespace Plasma{
     class Icon;
-    class HBoxLayout;
 }
 
 #include <QString>
+#include <QGraphicsWidget>
+#include <QGraphicsLinearLayout>
 
 class QSizeF;
 
 
-class ButtonWidget : public Plasma::Widget{
+class ButtonWidget : public QGraphicsWidget{
     
     Q_OBJECT
 
     public:
-        ButtonWidget(Plasma::Widget *parent=0);
+        ButtonWidget(QGraphicsWidget *parent=0);
         ~ButtonWidget(void);
         int status(void);
-        QSizeF sizeHint() const;
         enum STATUS{
             STOPPED,
             PAUSED,
@@ -61,7 +61,7 @@ class ButtonWidget : public Plasma::Widget{
     
     private:
         int m_status;
-        Plasma::HBoxLayout *m_layout;
+        QGraphicsLinearLayout *m_layout;
         Plasma::Icon *m_play,
                      *m_stop,
                      *m_prev,
