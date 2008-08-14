@@ -46,6 +46,14 @@
 AmarokClient::AmarokClient(QObject *parent, const QVariantList &args)
     :Plasma::Applet(parent, args){
 
+    setAspectRatioMode(Plasma::IgnoreAspectRatio);
+    isOnDesktop=false;   
+    resize(300,250);
+
+}
+
+void AmarokClient::init(){
+
     main_layout = new QGraphicsLinearLayout(this);
     main_layout->setOrientation(Qt::Vertical);
     main_layout->setSpacing(0);
@@ -55,12 +63,6 @@ AmarokClient::AmarokClient(QObject *parent, const QVariantList &args)
     controlWidget= new ButtonWidget(this);
     connect(controlWidget, SIGNAL(buttonPressed(const QString &)),
             this,SLOT(changeState(const QString &)));
-    setAspectRatioMode(Plasma::KeepAspectRatio);
-    isOnDesktop=false;   
-
-}
-
-void AmarokClient::init(){
 
     isOnDesktop = 
         (containment()->containmentType()==
@@ -78,20 +80,14 @@ void AmarokClient::init(){
         m_dial->setMinimumSize(300,200);
         m_dial->adjustSize();
         m_wpl=0;
+        
+
     }
 
     pbar=new Plasma::Meter(this);
     pbar->setMeterType(Plasma::Meter::BarMeterHorizontal);
     main_layout->addItem(pbar);
-
-
     main_layout->addItem(controlWidget);
-        
-    if(isOnDesktop)
-        resize(300,250);
-    else{
-        resize(128,64);
-    }
 
     playerStatus();
     status_interval=2000;
@@ -124,6 +120,11 @@ void AmarokClient::recalculateGeometry(void){
         factor=1.2;
     else 
         factor=2.5;
+    
+    if( t_siz.width() == 0 ||
+        t_siz.height() == 0 ){
+        return;
+    }
 
     getContentsMargins(&l1,&r1,&t1,&b1);
 
@@ -157,65 +158,19 @@ void AmarokClient::constraintsEvent(Plasma::Constraints constraints){
     if (constraints & Plasma::FormFactorConstraint) {
         if (formFactor() == Plasma::Horizontal) {
             setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
+            setMinimumWidth(128);
         }
         else if (formFactor() == Plasma::Vertical) {
             setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+            setMinimumHeight(32);
         }
         else {
             setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
         }
     }
-    if (constraints & Plasma::SizeConstraint) {
-/*        int t_width=contentsRect().size().width(),
-            t_height=contentsRect().size().height();
-        //this should not be needed
-        main_layout->setGeometry(QRectF(0,0,
-                                        t_width,
-                                        t_height));*/
-        /*if(isOnDesktop){
-            pbar->setMaximumSize(QSizeF(t_width,
-                                        t_height/9.0));
-            if(m_wpl){
-                m_wpl->setMinimumSize(QSizeF(t_width,
-                                             (2.0*t_height)/3.0));
-                m_wpl->setMaximumSize(m_wpl->minimumSize());
-            }
-        }
-        else{
-            pbar->setMaximumSize(QSizeF(t_width,
-                                        t_height/3.0));
-        }*/
-    }
-
-}
-/*
-QSizeF AmarokClient::contentSizeHint() const{
-
-    QSizeF n_s=contentSize();
-    
-    if(isOnDesktop){
-        if(n_s.height()<150)
-            n_s.setHeight(150);
-        n_s.setWidth((4.0*n_s.height())/3.0);
-    }
-    else{
-        if(n_s.height()<16)
-            n_s.setHeight(16);
-        n_s.setWidth((8.0*n_s.height())/3.0);
-    }
-    return n_s;
 
 }
 
-Qt::Orientations AmarokClient::expandingDirections() const{
-    
-    if(isOnDesktop)
-        return 0;
-    else
-        return Qt::Vertical;
-
-}
-*/
 void AmarokClient::changeState(const QString &state){
 
     if(QProcess::execute("dcop",
