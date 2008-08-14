@@ -25,8 +25,8 @@
 ******************************************************************************/
 
 
-#ifndef INFOWIDGETQT_HPP
-#define INFOWIDGETQT_HPP
+#ifndef INFOWIDGET_HPP
+#define INFOWIDGET_HPP
 
 
 
@@ -36,16 +36,17 @@ class QPaintEvent;
 class QTimer;
 class InfoDisplay;
 
-class InfoWidgetQt: public QWidget{
+class InfoWidget: public QWidget{
 
     Q_OBJECT
 
     public:
-        InfoWidgetQt(QWidget *parent=0);
-        ~InfoWidgetQt(void);
-        QSize sizeHint() const;
+        InfoWidget(QWidget *parent=0);
+        ~InfoWidget(void);
+        QSize sizeHint(void) const;
+
     protected:
-        void paintEvent(QPaintEvent * event);
+        void paintEvent(QPaintEvent *event);
     private:
         InfoDisplay *updater;
 };

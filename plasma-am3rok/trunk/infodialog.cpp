@@ -26,7 +26,7 @@
 
 #include "infodialog.hpp"
 
-#include "infowidgetqt.hpp"
+#include "infowidget.hpp"
 
 #include <QWidget>
 #include <QVBoxLayout>
@@ -35,7 +35,7 @@ InfoDialog::InfoDialog(QWidget * parent,
                        Qt::WindowFlags f):  
     Plasma::Dialog(parent,f){
     
-    m_wqt=new InfoWidgetQt(this);
+    m_wqt=new InfoWidget(this);
     m_lay=new QVBoxLayout(this);
     setLayout(m_lay);
     m_lay->addWidget(m_wqt);

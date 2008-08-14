@@ -33,24 +33,25 @@
 
 #include <QSizeF>
 
-ButtonWidget::ButtonWidget(Plasma::Widget *parent):
+ButtonWidget::ButtonWidget(QGraphicsWidget *parent):
     QGraphicsWidget(parent){
 
     m_layout = new QGraphicsLinearLayout(this);
 
-    layout()->setOrientation(Qt::Horizontal);
-    layout()->setMargin(0);
-    layout()->setSpacing(0);
+    m_layout->setOrientation(Qt::Horizontal);
+    m_layout->setContentsMargins(0,0,0,0);
+    m_layout->setSpacing(0);
 
     m_play = new Plasma::Icon(KIcon("media-playback-start"),"",this);
     m_stop = new Plasma::Icon(KIcon("media-playback-stop"), "", this);
     m_next = new Plasma::Icon(KIcon("media-skip-forward"), "", this);
     m_prev = new Plasma::Icon(KIcon("media-skip-backward"), "", this);
 
-    layout()->addItem(m_prev);
-    layout()->addItem(m_play);
-    layout()->addItem(m_stop);
-    layout()->addItem(m_next);
+    m_layout->addItem(m_prev);
+    m_layout->addItem(m_play);
+    m_layout->addItem(m_stop);
+    m_layout->addItem(m_next);
+    m_layout->setSpacing(0);
 
     connect(m_play,SIGNAL(clicked()),
             this,SLOT(playPressed()));
@@ -61,9 +62,8 @@ ButtonWidget::ButtonWidget(Plasma::Widget *parent):
     connect(m_prev,SIGNAL(clicked()),
             this,SLOT(prevPressed()));
 
-    setMinimumSize(QSizeF(96,24));
-    setAspectRatioMode(Plasma::KeepAspectRatio);
-    resize(128,32);
+//    setMinimumSize(QSizeF(96,24));
+    //resize(128,32);
 }
 
 
@@ -73,13 +73,23 @@ ButtonWidget::~ButtonWidget(void){
     delete m_stop;
     delete m_next;
     delete m_prev;
-    delete m_layout;
 
 }
 
 int ButtonWidget::status(void){
 
     return m_status;
+
+}
+
+QSizeF ButtonWidget::effectiveSizeHint(Qt::SizeHint , 
+                                       const QSizeF& ) const{
+
+    QSizeF n_size=size();
+
+    n_size.setWidth(n_size.height()*4.0);
+
+    return n_size;
 
 }
 

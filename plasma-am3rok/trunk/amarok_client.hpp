@@ -28,11 +28,13 @@
 #define AMAROK_CLIENT_HPP
 
 #include <QTimer>
+#include <QGraphicsLinearLayout>
 #include <Plasma/Applet>
 
 namespace Plasma {
     class VBoxLayout;
     class ProgressBar;
+    class Meter;
 }
 
 
@@ -52,10 +54,8 @@ class AmarokClient : public Plasma::Applet{
         void paintInterface(QPainter *painter,
                             const QStyleOptionGraphicsItem *option,
                             const QRect& contentsRect);
-        void constraintsUpdated(Plasma::Constraints);
+        void constraintsEvent(Plasma::Constraints);
         void mousePressEvent(QGraphicsSceneMouseEvent *event);
-        Qt::Orientations expandingDirections() const;
-        QSizeF contentSizeHint() const;
 
     public slots:
         void changeState(const QString &state);
@@ -68,12 +68,13 @@ class AmarokClient : public Plasma::Applet{
         ButtonWidget *controlWidget;
         InfoWidgetPlasma *m_wpl;
         InfoDialog *m_dial;
-        Plasma::VBoxLayout *main_layout;
-        Plasma::ProgressBar *pbar;
+        QGraphicsLinearLayout *main_layout;
+        Plasma::Meter *pbar;
         int status_interval;
         bool isOnDesktop;
         QTimer timer;
         int dcopAmarokIntQuery(const QString &query);
+        void recalculateGeometry(void);
 
 };
 

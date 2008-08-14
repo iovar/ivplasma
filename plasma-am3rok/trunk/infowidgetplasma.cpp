@@ -24,32 +24,66 @@
 *   For further information contact me at johnvarouhakis@gmail.com            *
 ******************************************************************************/
 
+#include "infodisplay.hpp"
+#include "infowidgetplasma.hpp"
 
-#ifndef INFODIALOG_HPP
-#define INFODIALOG_HPP
+#include <QSize>
+#include <QPainter>
+#include <QPaintEvent>
+#include <plasma/widgets/label.h>
 
+InfoWidgetPlasma::InfoWidgetPlasma(QGraphicsWidget *parent):
+    Plasma::Label(parent){
+    
+    updater= new InfoDisplay(this);
+    connect(updater,
+            SIGNAL(infoChanged()),
+            this,
+            SLOT(repaint()));
 
-#include <plasma/dialog.h>
-
-class QWidget;
-class QVBoxLayout;
-class InfoWidget;
-
-class InfoDialog: public Plasma::Dialog{
-    Q_OBJECT
-
-    public:
-        InfoDialog(QWidget * parent=0,
-                     Qt::WindowFlags f=Qt::Window);
-        ~InfoDialog(void);
-    private:
-        QVBoxLayout *m_lay;
-        InfoWidget *m_wqt;
-
-};
-
-#endif
+    resize(300,150);
+    setPreferredSize(300,150);
+}
 
 
+InfoWidgetPlasma::~InfoWidgetPlasma(void){
 
+    delete updater;
+
+}
+
+QSizeF InfoWidgetPlasma::effectiveSizeHint(Qt::SizeHint , 
+                                  const QSizeF& ) const{
+
+    QSizeF n_size=size();
+
+    n_size.setWidth(n_size.height()*2.0);
+
+    return n_size;
+
+}
+
+void InfoWidgetPlasma::repaint(void){
+
+    update(contentsRect());
+
+}
+
+void InfoWidgetPlasma::paint(QPainter *painter,
+                       const QStyleOptionGraphicsItem *option,
+                       QWidget *widget){
+
+    Q_UNUSED(option)
+    Q_UNUSED(widget)
+
+    updater->repaintInfo(painter,
+                         QRectF(contentsRect().x(),
+                                contentsRect().y(),
+                                contentsRect().width(),
+                                contentsRect().height()));
+
+}
+
+
+#include <infowidgetplasma.moc>
 

@@ -54,6 +54,8 @@ class ButtonWidget : public QGraphicsWidget{
             PLAYING,
             CLOSED
         };
+        QSizeF effectiveSizeHint(Qt::SizeHint , 
+                                 const QSizeF& ) const;
     public slots:
         void setStatus(const QString &n_status);
     signals:

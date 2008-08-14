@@ -26,7 +26,9 @@
 
 #include "infodisplay.hpp"
 
+#include <plasma/theme.h>
 
+#include <kcolorscheme.h>
 #include <klocale.h>
 
 #include <QTimer>
@@ -44,7 +46,11 @@ InfoDisplay::InfoDisplay(QObject *parent):
     connect(m_timer,SIGNAL(timeout()),
             this,SLOT(updateInfo()));
     m_timer->start();
-
+    
+    colorTheme = new KColorScheme(QPalette::Active, 
+                        KColorScheme::View,
+                        Plasma::Theme::defaultTheme()->colorScheme()); 
+    
     updateInfo();
     
 }
@@ -52,13 +58,18 @@ InfoDisplay::InfoDisplay(QObject *parent):
 InfoDisplay::~InfoDisplay(void){
 
     delete m_timer;
-
+    delete colorTheme;
 }
 
 void InfoDisplay::repaintInfo(QPainter *p,
                                 const QRectF &bbox){
+
+//    p->setBackgroundMode(Qt::OpaqueMode);
+//    p->setBackground(colorTheme->background());
+    p->setPen(colorTheme->foreground().color());
+//    p->fillRect(bbox,colorTheme->background());
+
     
-    p->setPen(QPen("#ffffff"));
     p->drawText(QRectF(bbox.x(),
                        bbox.y(),
                        bbox.width()/2.0,

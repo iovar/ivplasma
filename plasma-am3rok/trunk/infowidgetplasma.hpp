@@ -25,31 +25,38 @@
 ******************************************************************************/
 
 
-#ifndef INFODIALOG_HPP
-#define INFODIALOG_HPP
+#ifndef INFOWIDGETPLASMA_HPP
+#define INFOWIDGETPLASMA_HPP
+
+#include <plasma/widgets/label.h>
+
+class QPaintEvent;
+class QTimer;
+class InfoDisplay;
+#include <QSizeF>
 
 
-#include <plasma/dialog.h>
+class InfoWidgetPlasma: public Plasma::Label{
 
-class QWidget;
-class QVBoxLayout;
-class InfoWidget;
-
-class InfoDialog: public Plasma::Dialog{
     Q_OBJECT
 
     public:
-        InfoDialog(QWidget * parent=0,
-                     Qt::WindowFlags f=Qt::Window);
-        ~InfoDialog(void);
-    private:
-        QVBoxLayout *m_lay;
-        InfoWidget *m_wqt;
+        InfoWidgetPlasma(QGraphicsWidget *parent=0);
+        ~InfoWidgetPlasma(void);
+        QSizeF effectiveSizeHint(Qt::SizeHint which, 
+                                 const QSizeF& constraint=QSizeF()) const;
+        void paint(QPainter *painter,
+                   const QStyleOptionGraphicsItem *option,
+                   QWidget *widget=0);
 
+    public slots:
+            void repaint(void);
+
+    private:
+        InfoDisplay *updater;
 };
 
 #endif
-
 
 
 

@@ -14,7 +14,7 @@ include_directories(
 set(am3rokclient_SRCS amarok_client.cpp
                       buttonwidget.cpp
                       infodisplay.cpp
-                      infowidgetqt.cpp
+                      infowidget.cpp
                       infowidgetplasma.cpp
                       infodialog.cpp)
 

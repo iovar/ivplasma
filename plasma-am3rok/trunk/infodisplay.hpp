@@ -33,6 +33,7 @@
 #include <QImage>
 #include <QObject>
 
+class KColorScheme;
 class QPainter;
 class QImage;
 class QTimer;
@@ -50,6 +51,7 @@ class InfoDisplay : public QObject{
     private slots:
         void updateInfo(void);
     private:
+        KColorScheme *colorTheme;
         QImage m_image;
         QTimer *m_timer;
         QString m_title,

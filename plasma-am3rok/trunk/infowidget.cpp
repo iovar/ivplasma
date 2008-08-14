@@ -25,13 +25,14 @@
 ******************************************************************************/
 
 #include "infodisplay.hpp"
-#include "infowidgetqt.hpp"
+#include "infowidget.hpp"
 
 #include <QSize>
 #include <QPainter>
 #include <QPaintEvent>
 
-InfoWidgetQt::InfoWidgetQt(QWidget *parent):
+
+InfoWidget::InfoWidget(QWidget *parent):
     QWidget(parent){
     
     updater= new InfoDisplay(this);
@@ -40,17 +41,18 @@ InfoWidgetQt::InfoWidgetQt(QWidget *parent):
             this,
             SLOT(update()));
 
-    setMinimumSize(300,200);
+    resize(300,200);
+//    setMinimumSize(300,200);
 }
 
 
-InfoWidgetQt::~InfoWidgetQt(void){
+InfoWidget::~InfoWidget(void){
 
     delete updater;
 
 }
 
-QSize InfoWidgetQt::sizeHint() const{
+QSize InfoWidget::sizeHint(void) const{
 
     QSize n_size=size();
 
@@ -60,10 +62,10 @@ QSize InfoWidgetQt::sizeHint() const{
 
 }
 
-void InfoWidgetQt::paintEvent(QPaintEvent *event){
+void InfoWidget::paintEvent(QPaintEvent *event){
 
     Q_UNUSED(event)
-
+    
     QPainter painter(this);
     updater->repaintInfo(&painter,
                          QRectF(0,0,
@@ -73,5 +75,5 @@ void InfoWidgetQt::paintEvent(QPaintEvent *event){
 }
 
 
-#include <infowidgetqt.moc>
+#include <infowidget.moc>
 
