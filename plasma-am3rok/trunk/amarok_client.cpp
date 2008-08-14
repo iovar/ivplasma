@@ -158,7 +158,7 @@ void AmarokClient::constraintsEvent(Plasma::Constraints constraints){
     if (constraints & Plasma::FormFactorConstraint) {
         if (formFactor() == Plasma::Horizontal) {
             setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
-            setMinimumWidth(128);
+            setMinimumWidth(96);
         }
         else if (formFactor() == Plasma::Vertical) {
             setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
