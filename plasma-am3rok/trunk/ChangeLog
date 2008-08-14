@@ -1,0 +1,20 @@
+[VERSION 0.4]
+Ported to the KDE 4.1 API
+
+[Verion - 0.3]
+*Rewritten most of the code in a more
+modular and easier to maintain way.
+*Fixed(hopefully) the resizing bug.
+*Added progress-bar and a popup 
+with the track information when 
+the containment is a panel. 
+	   
+[Verion - 0.2]
+		 
+Added progress-bar, 
+track/artist/album
+info and album cover,
+when the containment
+is a Desktop. 
+
+
