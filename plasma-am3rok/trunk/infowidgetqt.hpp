@@ -29,7 +29,6 @@
 #define INFOWIDGETQT_HPP
 
 
-#include <plasma/widgets/widget.h>
 
 #include <QWidget>
 
