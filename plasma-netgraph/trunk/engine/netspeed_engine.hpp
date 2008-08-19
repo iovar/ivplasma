@@ -45,8 +45,8 @@ class NetworkSpeedEngine : public Plasma::DataEngine
 
     protected:  
         void init(void);
-        bool sourceRequested(const QString &name);
-        bool updateSource(const QString& source);
+        bool sourceRequestEvent(const QString &name);
+        bool updateSourceEvent(const QString& source);
 
     private:
         float totalMBytesIn,

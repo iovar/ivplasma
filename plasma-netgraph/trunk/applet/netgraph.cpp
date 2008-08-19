@@ -46,6 +46,8 @@
 #include <plasma/dialog.h>
 #include <plasma/widgets/label.h>
 
+#include <kdebug.h>
+
 PlasmaNetGraph::PlasmaNetGraph(QObject *parent, const QVariantList &args) :
     Plasma::Applet(parent, args){
 
@@ -137,17 +139,67 @@ void PlasmaNetGraph::init(){
  
 }
 
+void PlasmaNetGraph::recalculateGeometry(void){
 
-void PlasmaNetGraph::constraintsUpdated(Plasma::Constraints constraints){
+    QSizeF   t_siz=contentsRect().size(),
+            n_siz;
+    double l1,r1,t1,b1;
+    double factor=2.0;
 
+    if(direction==Qt::Vertical)
+        factor=0.5;
+    else 
+        factor=2;
+    
+    if( t_siz.width() == 0 ||
+        t_siz.height() == 0 ){
+        return;
+    }
 
-    if (constraints & Plasma::SizeConstraint) {
-        int t_width=contentsRect().size().width(),
-            t_height=contentsRect().size().height();
-        //this should not be needed
-        blay->setGeometry(QRectF(0,0,
-                                 t_width,
-                                 t_height));
+    getContentsMargins(&l1,&r1,&t1,&b1);
+
+    n_siz.setWidth(t_siz.width()+l1+r1);
+    n_siz.setHeight(t_siz.height()+b1+t1);
+    
+
+    if(t_siz.width()>t_siz.height()*factor+10 ||
+        t_siz.width()<t_siz.height()*factor-10){
+
+        if(t_siz.width()>t_siz.height()*factor){
+
+            n_siz.setWidth(t_siz.height()*factor+l1+r1);
+
+        }
+        else if(t_siz.width()<t_siz.height()*factor){
+
+            n_siz.setHeight(t_siz.width()/factor+b1+t1);
+
+        }
+
+    }
+    kDebug() << t_siz.width() <<t_siz.height() << n_siz.width() <<n_siz.height();
+    
+    resize(n_siz);
+    setPreferredSize(n_siz);
+
+}
+
+void PlasmaNetGraph::constraintsEvent(Plasma::Constraints constraints){
+
+    recalculateGeometry();
+
+    if (constraints & Plasma::FormFactorConstraint) {
+        if (formFactor() == Plasma::Horizontal) {
+            setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
+            setMinimumWidth(96);
+        }
+        else if (formFactor() == Plasma::Vertical) {
+            setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+            setMinimumHeight(32);
+        }
+        else {
+            setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        }
     }
 }
 
@@ -157,7 +209,7 @@ void PlasmaNetGraph::dataUpdated(const QString &name,
     Q_UNUSED(name);
     double dl=0.0,
            up=0.0;
-
+    
     QList<QVariant> list=data[iface].toList();
     dl=(list[2].toDouble()*8000.0)/(update_interval*1024.0);
     up=(list[3].toDouble()*8000.0)/(update_interval*1024.0);
@@ -281,6 +333,7 @@ void PlasmaNetGraph::configurationUpdated(void){
     ugraph->setBlend(m_blend);
     ugraph->setGraphType(graph_type);
 
+    recalculateGeometry();
 }
 
 void PlasmaNetGraph::saveConfig(void){

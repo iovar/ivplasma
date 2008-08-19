@@ -262,9 +262,9 @@ void BlockGraph::setBlend(bool val){
 
 }
 
-void BlockGraph::paintWidget(QPainter *p,
-                             const QStyleOptionGraphicsItem *option, 
-                             QWidget *widget){
+void BlockGraph::paint(QPainter *p,
+                       const QStyleOptionGraphicsItem *option, 
+                       QWidget *widget){
 
     Q_UNUSED(option)
     Q_UNUSED(widget)

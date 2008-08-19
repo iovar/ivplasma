@@ -55,7 +55,7 @@ class PlasmaNetGraph : public Plasma::Applet{
         void paintInterface(QPainter *painter,
                             const QStyleOptionGraphicsItem *option,
                             const QRect& contentsRect);
-        void constraintsUpdated(Plasma::Constraints);
+        void constraintsEvent(Plasma::Constraints);
         void mousePressEvent(QGraphicsSceneMouseEvent *event);
         void init(void);
 
@@ -89,6 +89,7 @@ class PlasmaNetGraph : public Plasma::Applet{
              m_blend,
              first_run;
 
+        void recalculateGeometry(void);
         QString speedString(double dl,
                             double up,
                             double tdl,

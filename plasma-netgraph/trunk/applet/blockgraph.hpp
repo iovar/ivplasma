@@ -55,9 +55,9 @@ class BlockGraph : public QGraphicsWidget{
         bool hasBlend(void);
         BlockGraph(QGraphicsWidget *parent=0);
         ~BlockGraph(void);
-        void paintWidget(QPainter *painter,
-                         const QStyleOptionGraphicsItem *option,
-                         QWidget *widget = 0);
+        void paint(QPainter *painter,
+                   const QStyleOptionGraphicsItem *option,
+                   QWidget *widget = 0);
         QSizeF effectiveSizeHint(Qt::SizeHint , 
                                  const QSizeF& ) const;
 

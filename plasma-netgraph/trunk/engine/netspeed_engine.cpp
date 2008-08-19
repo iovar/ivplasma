@@ -28,6 +28,8 @@
 #include "netspeed_engine.hpp"
 #include <QStringList>
 
+#include <kdebug.h>
+
 NetworkSpeedEngine::NetworkSpeedEngine(QObject* parent, 
                                        const QVariantList& args) :
     Plasma::DataEngine(parent){
@@ -50,11 +52,15 @@ NetworkSpeedEngine::~NetworkSpeedEngine(void){
 
 void NetworkSpeedEngine::init(void){
     
+    kDebug() << "Engine init" ;
+
 }
 
 
-bool NetworkSpeedEngine::sourceRequested(const QString &name){
+bool NetworkSpeedEngine::sourceRequestEvent(const QString &name){
 
+    kDebug() << "Source requested: "<< name ;
+    
     if(sources().contains(name))
         return true;
 
@@ -72,7 +78,7 @@ bool NetworkSpeedEngine::sourceRequested(const QString &name){
 
 
 
-bool NetworkSpeedEngine::updateSource(const QString& device){
+bool NetworkSpeedEngine::updateSourceEvent(const QString& device){
     
     
     if(not devices.contains(device))
