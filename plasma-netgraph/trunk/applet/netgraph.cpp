@@ -103,6 +103,10 @@ PlasmaNetGraph::PlasmaNetGraph(QObject *parent, const QVariantList &args) :
     setAspectRatioMode(Plasma::IgnoreAspectRatio);
     setHasConfigurationInterface(true);
 
+    double l1,r1,t1,b1;
+    getContentsMargins(&l1,&r1,&t1,&b1);
+    resize(100+l1+r1,50+t1+b1);   
+
 }
 
 
@@ -118,22 +122,9 @@ PlasmaNetGraph::~PlasmaNetGraph(){
 
 void PlasmaNetGraph::init(){
     
-    double l1,r1,t1,b1;
 
     loadConfig();
     configurationUpdated();
-
-    getContentsMargins(&l1,&r1,&t1,&b1);
-
-    Plasma::Containment* con=containment();
-    if(first_run){
-        if(con->containmentType()==Plasma::Containment::DesktopContainment){
-            resize(100+l1+r1,50+t1+b1);   
-        }
-        else if(con->containmentType()==Plasma::Containment::PanelContainment){
-            resize(100+l1+r1,50+t1+b1);   
-        }
-    }
 
     dataEngine("networkspeed")->connectSource(iface,this,update_interval);
  
@@ -146,8 +137,13 @@ void PlasmaNetGraph::recalculateGeometry(void){
     double l1,r1,t1,b1;
     double factor=2.0;
 
-    if(direction==Qt::Vertical)
+    if(direction==Qt::Vertical){
         factor=0.5;
+        if((containment()->containmentType()==
+         Plasma::Containment::PanelContainment))
+            factor=0.6;
+
+    }
     else 
         factor=2;
     
@@ -191,11 +187,9 @@ void PlasmaNetGraph::constraintsEvent(Plasma::Constraints constraints){
     if (constraints & Plasma::FormFactorConstraint) {
         if (formFactor() == Plasma::Horizontal) {
             setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
-            setMinimumWidth(96);
         }
         else if (formFactor() == Plasma::Vertical) {
             setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-            setMinimumHeight(32);
         }
         else {
             setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
