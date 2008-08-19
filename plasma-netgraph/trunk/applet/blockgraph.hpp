@@ -29,14 +29,15 @@
 #define BLOCKGRAPH_HPP
 
 
-#include <plasma/widgets/widget.h>
 
 class QWidget;
 class QSizeF;
 class QString;
 template <typename t> class QList;
 
-class BlockGraph : public Plasma::Widget{
+#include <QGraphicsWidget>
+
+class BlockGraph : public QGraphicsWidget{
 
     Q_OBJECT
 
@@ -52,13 +53,13 @@ class BlockGraph : public Plasma::Widget{
         int getDetail(void);
         int getGraphType(void);
         bool hasBlend(void);
-        BlockGraph(Plasma::Widget *parent=0);
+        BlockGraph(QGraphicsWidget *parent=0);
         ~BlockGraph(void);
         void paintWidget(QPainter *painter,
                          const QStyleOptionGraphicsItem *option,
                          QWidget *widget = 0);
-        QSizeF sizeHint() const;
-        Qt::Orientations expandingDirections() const;
+        QSizeF effectiveSizeHint(Qt::SizeHint , 
+                                 const QSizeF& ) const;
 
     public slots:
         void setColor(const QString &col);

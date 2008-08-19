@@ -30,7 +30,7 @@
 
 #include <plasma/applet.h>
 #include <plasma/dataengine.h>
-#include <plasma/layouts/boxlayout.h>
+
 
 class BlockGraph;
 
@@ -42,6 +42,7 @@ class QVBoxLayout;
 class QLabel;
 class QString;
 class QSizeF;
+class QGraphicsLinearLayout;
 
 class PlasmaNetGraph : public Plasma::Applet{
 
@@ -56,8 +57,6 @@ class PlasmaNetGraph : public Plasma::Applet{
                             const QRect& contentsRect);
         void constraintsUpdated(Plasma::Constraints);
         void mousePressEvent(QGraphicsSceneMouseEvent *event);
-        QSizeF contentSizeHint() const;
-        Qt::Orientations expandingDirections() const;
         void init(void);
 
     public slots:
@@ -75,11 +74,11 @@ class PlasmaNetGraph : public Plasma::Applet{
     private:
         BlockGraph *dgraph,
                    *ugraph;
-        Plasma::BoxLayout *blay;
-        QVBoxLayout *dial_lay;
+        QGraphicsLinearLayout   *blay;
+        QVBoxLayout    *dial_lay;
+        Qt::Orientation direction;
         Plasma::Dialog *dial_pl;
         QLabel *dial_lbl;
-        Plasma::BoxLayout::Direction direction;
         QString iface;
         double max_dload,
               max_upload;

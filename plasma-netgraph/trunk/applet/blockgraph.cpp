@@ -37,8 +37,8 @@
 #include <QGradient>
 #include <QLinearGradient>
 
-BlockGraph::BlockGraph(Plasma::Widget *parent) :
-    Plasma::Widget(parent){
+BlockGraph::BlockGraph(QGraphicsWidget *parent) :
+    QGraphicsWidget(parent){
 
     max_load=1024.0;
     max_points=10;
@@ -56,7 +56,8 @@ BlockGraph::~BlockGraph(){
 }
 
 
-QSizeF BlockGraph::sizeHint() const{
+QSizeF BlockGraph::effectiveSizeHint(   Qt::SizeHint , 
+                                        const QSizeF& ) const{
 
     QSizeF sizeHint = size();
 
@@ -67,11 +68,6 @@ QSizeF BlockGraph::sizeHint() const{
 
 }
 
-Qt::Orientations BlockGraph::expandingDirections() const{
-
-    return Qt::Vertical | Qt::Horizontal ;
-
-}
 QString BlockGraph::getColor(void){
     
     return color.name();

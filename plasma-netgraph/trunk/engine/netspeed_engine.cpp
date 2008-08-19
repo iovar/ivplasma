@@ -37,7 +37,7 @@ NetworkSpeedEngine::NetworkSpeedEngine(QObject* parent,
     totalMBytesOut=
     speed_dload=
     speed_upload=0.0;
-    setMinimumUpdateInterval(500);
+    setMinimumPollingInterval(500);
 
 }
 
@@ -84,7 +84,7 @@ bool NetworkSpeedEngine::updateSource(const QString& device){
     totalMBytesIn=devices[device].totalMbIn();
     totalMBytesOut=devices[device].totalMbOut();
 
-    clearData(device);
+    removeAllData(device);
     setData(device,
         QVariant(QList<QVariant>() << totalMBytesIn
                                 << totalMBytesOut 

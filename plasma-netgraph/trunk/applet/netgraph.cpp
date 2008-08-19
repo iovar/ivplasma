@@ -39,13 +39,10 @@
 #include <QList>
 #include <QLabel>
 #include <QVBoxLayout>
-
+#include <QGraphicsLinearLayout>
 #include <KSharedConfig>
 
 #include <plasma/containment.h>
-#include <plasma/layouts/boxlayout.h>
-#include <plasma/layouts/vboxlayout.h>
-#include <plasma/layouts/layoutitem.h>
 #include <plasma/dialog.h>
 #include <plasma/widgets/label.h>
 
@@ -61,11 +58,13 @@ PlasmaNetGraph::PlasmaNetGraph(QObject *parent, const QVariantList &args) :
     ucolor=QColor("#ff00ff");
     dcolor=QColor("#00ff00");
     iface="eth0";
-    direction=Plasma::BoxLayout::TopToBottom;
+    direction=Qt::Vertical;
     
 
-    blay = new Plasma::BoxLayout(direction,
-                        static_cast<Plasma::LayoutItem* > (this));
+    blay = new QGraphicsLinearLayout(this);
+    blay->setOrientation(direction);
+    blay->setSpacing(4);
+    blay->setContentsMargins(0,0,0,0);
     
     dial_pl= new Plasma::Dialog();
     dial_lay= new QVBoxLayout(dial_pl);
@@ -81,8 +80,6 @@ PlasmaNetGraph::PlasmaNetGraph(QObject *parent, const QVariantList &args) :
     ugraph=new BlockGraph(this);
     
 
-    blay->setMargin(0);
-    blay->setSpacing(4);
 
     blay->addItem(dgraph);
     blay->addItem(ugraph);
@@ -101,7 +98,7 @@ PlasmaNetGraph::PlasmaNetGraph(QObject *parent, const QVariantList &args) :
     ugraph->pushPoint(0.0);
 
 
-    setDrawStandardBackground(true);
+    setAspectRatioMode(Plasma::IgnoreAspectRatio);
     setHasConfigurationInterface(true);
 
 }
@@ -109,7 +106,6 @@ PlasmaNetGraph::PlasmaNetGraph(QObject *parent, const QVariantList &args) :
 
 PlasmaNetGraph::~PlasmaNetGraph(){
 
-    delete blay;
     delete dgraph;
     delete ugraph;
     delete dial_lbl;
@@ -120,16 +116,20 @@ PlasmaNetGraph::~PlasmaNetGraph(){
 
 void PlasmaNetGraph::init(){
     
+    double l1,r1,t1,b1;
+
     loadConfig();
     configurationUpdated();
+
+    getContentsMargins(&l1,&r1,&t1,&b1);
 
     Plasma::Containment* con=containment();
     if(first_run){
         if(con->containmentType()==Plasma::Containment::DesktopContainment){
-            setContentSize(100,50);   
+            resize(100+l1+r1,50+t1+b1);   
         }
         else if(con->containmentType()==Plasma::Containment::PanelContainment){
-            setContentSize(100,50);   
+            resize(100+l1+r1,50+t1+b1);   
         }
     }
 
@@ -142,27 +142,13 @@ void PlasmaNetGraph::constraintsUpdated(Plasma::Constraints constraints){
 
 
     if (constraints & Plasma::SizeConstraint) {
-        int t_width=contentSize().width(),
-            t_height=contentSize().height();
+        int t_width=contentsRect().size().width(),
+            t_height=contentsRect().size().height();
         //this should not be needed
         blay->setGeometry(QRectF(0,0,
                                  t_width,
                                  t_height));
     }
-}
-
-QSizeF PlasmaNetGraph::contentSizeHint() const{
-
-    QSizeF sizeHint = contentSize();
-
-    if(direction==Plasma::BoxLayout::LeftToRight)
-        sizeHint.setHeight(sizeHint.width() / 2.0);
-    else
-        sizeHint.setWidth(sizeHint.height() / 2.0);
-         
-    return sizeHint;
-
-
 }
 
 void PlasmaNetGraph::dataUpdated(const QString &name,
@@ -181,12 +167,6 @@ void PlasmaNetGraph::dataUpdated(const QString &name,
     if(dial_pl->isVisible()){
         dial_lbl->setText(speedString(dl,up,list[0].toDouble(),list[1].toDouble()));
     }
-}
-
-Qt::Orientations PlasmaNetGraph::expandingDirections() const{
-
-    return 0;
-
 }
 
 void PlasmaNetGraph::setIFace(const QString &device_name){
@@ -239,7 +219,7 @@ void PlasmaNetGraph::showConfigurationInterface(){
                       max_upload,
                       grid,
                       m_blend,
-                      direction==Plasma::BoxLayout::TopToBottom,
+                      direction==Qt::Vertical,
                       dcolor.name(),
                       ucolor.name(),
                       max_points,
@@ -264,9 +244,9 @@ void PlasmaNetGraph::showConfigurationInterface(){
         ucolor=dial.getUCol();
 
         if(dial.isVertical())
-            direction=Plasma::BoxLayout::TopToBottom;
+            direction=Qt::Vertical;
         else
-            direction=Plasma::BoxLayout::LeftToRight;
+            direction=Qt::Horizontal;
 
         configurationUpdated();
         saveConfig();
@@ -277,14 +257,14 @@ void PlasmaNetGraph::showConfigurationInterface(){
 
 void PlasmaNetGraph::configurationUpdated(void){
     
-    blay->setDirection(direction);
+    blay->setOrientation(direction);
 
     Plasma::Containment* con=containment();
     if(con->containmentType()==Plasma::Containment::DesktopContainment){
-        setContentSize(contentSizeHint());   
+        ;
     }
     else if(con->containmentType()==Plasma::Containment::PanelContainment){
-        setContentSize(contentSizeHint());   
+        ;
     }
 
     dgraph->setMaxLoad(max_dload);
@@ -309,7 +289,7 @@ void PlasmaNetGraph::saveConfig(void){
     cg.writeEntry("FirstRun",
                   false);
     cg.writeEntry("IsVertical",
-                  direction==Plasma::BoxLayout::TopToBottom);
+                  direction==Qt::Vertical);
     cg.writeEntry("IFace",
                    iface);
     cg.writeEntry("MaxDownload",
@@ -341,9 +321,9 @@ void PlasmaNetGraph::loadConfig(void){
     first_run=cg.readEntry("FirstRun",true);
 
     if(cg.readEntry("IsVertical",false))
-        direction=Plasma::BoxLayout::TopToBottom;
+        direction=Qt::Vertical;
     else
-        direction=Plasma::BoxLayout::LeftToRight;
+        direction=Qt::Horizontal;
     iface=cg.readEntry("IFace","eth0");
                    
     max_dload=cg.readEntry("MaxDownload",1024);
@@ -379,7 +359,7 @@ void PlasmaNetGraph::paintInterface(QPainter *p,
 void PlasmaNetGraph::mousePressEvent(QGraphicsSceneMouseEvent *event){
 
     if (event->buttons () == Qt::LeftButton &&
-        contentRect().contains(event->pos())) {
+        contentsRect().contains(event->pos())) {
             if(dial_pl->isVisible())
                 dial_pl->hide();
             else{
