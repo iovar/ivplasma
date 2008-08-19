@@ -1,3 +1,7 @@
+[VERSION 0.4.1]
+*fixed a deadlock when resizing can't be
+pixel-perfect
+
 [VERSION 0.4]
 Ported to the KDE 4.1 API
 

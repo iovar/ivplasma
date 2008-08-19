@@ -132,7 +132,8 @@ void AmarokClient::recalculateGeometry(void){
     n_siz.setHeight(t_siz.height()+b1+t1);
     
 
-    if(t_siz.width()!=t_siz.height()*factor){
+    if(t_siz.width()>t_siz.height()*factor+10 ||
+        t_siz.width()<t_siz.height()*factor-10){
 
         if(t_siz.width()>t_siz.height()*factor){
 
@@ -146,6 +147,8 @@ void AmarokClient::recalculateGeometry(void){
         }
 
     }
+    kDebug() << t_siz.width() <<t_siz.height() << n_siz.width() <<n_siz.height();
+    
     resize(n_siz);
     setPreferredSize(n_siz);
 
