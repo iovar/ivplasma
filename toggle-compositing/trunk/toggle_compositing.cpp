@@ -81,7 +81,8 @@ void ToggleCompositing::recalculateGeometry(void){
     n_siz.setWidth(t_siz.width()+l1+r1);
     n_siz.setHeight(t_siz.height()+b1+t1);
 
-    if(t_siz.width()!=t_siz.height()/2.0){
+    if(t_siz.width()>t_siz.height()/2.0 + 5 ||
+	t_siz.width()<t_siz.height()/2.0 - 5){
 
         if(t_siz.width()>t_siz.height()/2.0){
 
