@@ -143,8 +143,9 @@ void BlockGraph::drawBox(QPainter *p,qreal width,qreal height){
 
 void BlockGraph::drawLines(QPainter *p,qreal width,qreal height){
 
-    qreal bar_width=(width-8.0)/((qreal)(max_points-1)),
-          pensize=height/16.0;  
+    qreal bar_width=(width-8.0)/
+                    ((qreal)(max_points-1*(graph_type!=BlockGraph::Bars))),
+          pensize=(height<32.0)?1.0:height/32.0;  
     int tmax=max_points;
     if(tmax>points.size())
         tmax=points.size();
@@ -269,7 +270,7 @@ void BlockGraph::paint(QPainter *p,
     Q_UNUSED(option)
     Q_UNUSED(widget)
 
-    QSizeF cur_size=size();
+    QSizeF cur_size=contentsRect().size();
     p->save();
 
     if(grid)
