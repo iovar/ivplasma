@@ -411,9 +411,9 @@ void PlasmaNetGraph::mousePressEvent(QGraphicsSceneMouseEvent *event){
                 dial_pl->hide();
             else{
                 dial_pl->show();
-                dial_pl->position(event,
-                                  boundingRect(),
-                                  mapToScene(boundingRect().topLeft()));
+                //dial_pl->position(event,
+                  //                boundingRect(),
+                    //              mapToScene(boundingRect().topLeft()));
             }
             event->accept();
             return;
