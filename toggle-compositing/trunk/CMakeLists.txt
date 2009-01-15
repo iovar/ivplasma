@@ -2,7 +2,6 @@ project(toggle_compositing)
  
 find_package(KDE4 REQUIRED)
 include(KDE4Defaults)
-find_package(Plasma REQUIRED)
  
 add_definitions (${QT_DEFINITIONS} ${KDE4_DEFINITIONS})
 include_directories(
@@ -18,7 +17,7 @@ set(toggle_compositing_SRCS toggle_compositing.cpp
 kde4_add_plugin(plasma_applet_toggle_compositing ${toggle_compositing_SRCS})
 
 target_link_libraries(plasma_applet_toggle_compositing 
-                      ${PLASMA_LIBS} ${KDE4_KDEUI_LIBS})
+                      ${KDE4_PLASMA_LIBS} ${KDE4_KDEUI_LIBS})
 
 install(TARGETS plasma_applet_toggle_compositing
         DESTINATION ${PLUGIN_INSTALL_DIR})
