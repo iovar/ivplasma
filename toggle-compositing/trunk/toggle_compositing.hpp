@@ -51,7 +51,7 @@ class ToggleCompositing : public Plasma::Applet{
                             const QRect& contentsRect);
         void constraintsEvent(Plasma::Constraints);
         void mousePressEvent(QGraphicsSceneMouseEvent *event);
-        
+
 
         bool readState(void);
         bool tryChangeState(void);
@@ -60,7 +60,7 @@ class ToggleCompositing : public Plasma::Applet{
         void checkState(void);
 
     protected:
-        
+
         QSizeF contentSizeHint() const;
 
         void toggleState(void);
@@ -71,8 +71,6 @@ class ToggleCompositing : public Plasma::Applet{
         QTimer *state_tmr;
         bool m_state;
         Plasma::Svg *m_btn;
-
-        void recalculateGeometry(void);
 
 };
 
