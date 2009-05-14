@@ -53,7 +53,7 @@ ToggleCompositing::ToggleCompositing(QObject *parent, const QVariantList &args)
     getContentsMargins(&l1,&r1,&t1,&b1);
     setAspectRatioMode(Plasma::KeepAspectRatio);
     setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
-    resize(QSizeF(32+l1+r1,64+t1+b1));
+    resize(QSizeF(28+l1+r1,60+t1+b1));
 
 
     m_btn = new Plasma::Svg(this);
